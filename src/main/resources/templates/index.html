@@ -2,20 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Mycoin-UI</title>
-    <script th:src="@{/js/angular.min.js}"></script>
-    <script th:src="@{/js/echarts.js}"></script>
+    <!--<script src="https://cdn.bootcss.com/angular.js/1.7.0/angular.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/angular.js}"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.4/angular-route.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/angular-route.js}"></script>
+    <script type="text/javascript" th:src="@{/js/echarts.js}"></script>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
     <link th:href="@{/css/bootstrap-grid.css}" rel="stylesheet" />
     <link th:href="@{/css/bootstrap-reboot.css}" rel="stylesheet" />
     <link th:href="@{/css/style.css}" rel="stylesheet" />
     <link href="https://cdn.bootcss.com/font-awesome/5.8.1/css/all.css" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/config.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/appController.js}"></script>-->
+    <!--<link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">-->
+    <!--<script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>-->
+    <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
+    <!--<base href="/">-->
     <head>
-<body ng-="mycoinUI" ng-controller="appController">
+<body ng-app="mycoinUI">
     <div class="content">
         <!-- HEADER -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger pull-left" href="/"><i class="fas fa-project-diagram"></i></a>
+                <a class="navbar-brand js-scroll-trigger pull-left" href="#!/home"><i class="fas fa-donate" style="color:white"></i></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"><i class="fa fa-navicon"></i></span>
                 </button>
@@ -23,17 +34,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/">HOME</a>
+                            <a class="nav-link active" href="#!/home">HOME</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/block_list/">BLOCKS</a>
+                            <a class="nav-link" href="#!/blocks/">BLOCKS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/node_list/">NODES</a>
+                            <a class="nav-link" href="#!/nodes/">NODES</a>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0 pull-right" method="POST" action="/search/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="nHmBmg7zD6ry6Z1pP8wvmYqLF9iQGT9T46b9eNYrr4qfjvEguqOmkH9cWPJP8cwi">
                         <input class="form-control mr-sm-2" type="search" name="search_input" placeholder="Search by block hash">
                         <button class="btn btn-sm btn-outline-warning my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
                     </form>
@@ -41,360 +51,7 @@
             </div>
         </nav>
 
-        <!--<div class="wrapper">-->
-
-
-            <!--<div class="container table-container">-->
-                <!--<div class="row">-->
-                    <!--<div class="col-sm-8">-->
-                        <!--<div id="graph" style="width: 100%; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;" _echarts_instance_="ec_1555929068174"><div style="position: relative; overflow: hidden; width: 730px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="730" height="300" style="position: absolute; left: 0px; top: 0px; width: 730px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div></div></div>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                        <!--<div class="row">-->
-                            <!--<div class="col-sm cell">-->
-                                <!--<a class="nav-link" href="/block_list/"><i class="fas fa-th fa-2x"></i></a><br>-->
-                                <!--<a class="nav-link" href="/block_list/"><h3 class="timer count-title count-number" data-to="69520" data-speed="1500">69520</h3></a><br>-->
-                                <!--<a class="nav-link" href="/block_list/"><p class="count-text ">Blocks</p></a>-->
-                            <!--</div>-->
-                            <!--<div class="col-sm cell">-->
-                                <!--<a class="nav-link" href="/tx_list/"><i class="fas fa-file-signature fa-2x"></i></a><br>-->
-                                <!--<a class="nav-link" href="/tx_list/"><h3 class="timer count-title count-number" data-to="164457" data-speed="1500">164457</h3></a><br>-->
-                                <!--<a class="nav-link" href="/tx_list/"><p class="count-text ">Transactions</p></a>-->
-                            <!--</div>-->
-                            <!--<div class="col-sm cell">-->
-                                <!--<a class="nav-link" href="/node_list/"><i class="fas fa-project-diagram fa-2x"></i></a><br>-->
-                                <!--<a class="nav-link" href="/node_list/"><h3 class="timer count-title count-number" data-to="128" data-speed="1500">128</h3></a><br>-->
-                                <!--<a class="nav-link" href="/node_list/"><p class="count-text ">Nodes</p></a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="container block-info-container">-->
-
-                <!--&lt;!&ndash; BLOCK LISTING &ndash;&gt;-->
-                <!--<div class="block-header block-header-margin">-->
-                    <!--<div class="block-mainpage-header">-->
-                        <!--<a href="/block_list/"><span>Block Information</span></a>-->
-                        <!--<a href="/"><i class="fa fa-refresh" aria-hidden="true" style="font-size: 1rem"></i></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="block">-->
-                    <!--<table class="table block-table table-striped ">-->
-                        <!--<tbody>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69520/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69520</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555927729")</script>Mon, 22 Apr 2019 10:08:49 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/ayCB74EqV8E9wLPf2mMmpDrMPeo3ZkpphtvypA7UwiHXrLgzHVmE/"> ayCB74EqV8E9wLPf2mMmpDrMPeo3ZkpphtvypA7UwiHXrLgzHVmE </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69519/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69519</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555927401")</script>Mon, 22 Apr 2019 10:03:21 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/EUiJP28A9a4FvtMHCdEKAH56Gdb7Dr4Mj4g3Xj69JxrHqTX9cdy2/"> EUiJP28A9a4FvtMHCdEKAH56Gdb7Dr4Mj4g3Xj69JxrHqTX9cdy2 </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69518/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69518</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555927352")</script>Mon, 22 Apr 2019 10:02:32 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/KnkZZQ2VnoT45pwifFdmqLvBnkW2U9aFCEzFnBMULzziYREy9LRu/"> KnkZZQ2VnoT45pwifFdmqLvBnkW2U9aFCEzFnBMULzziYREy9LRu </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69517/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69517</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555927347")</script>Mon, 22 Apr 2019 10:02:27 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/NVu2Bzi4tsKVT5wscfQPMYLD3RJTegqd7MkipuP6kmkLnhk1ff9Q/"> NVu2Bzi4tsKVT5wscfQPMYLD3RJTegqd7MkipuP6kmkLnhk1ff9Q </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69516/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69516</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926900")</script>Mon, 22 Apr 2019 09:55:00 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/Bi617hAf5MCpRMPm36cd4MSZpKEPqQ62kDkbDc1uagc6C87bWhPr/"> Bi617hAf5MCpRMPm36cd4MSZpKEPqQ62kDkbDc1uagc6C87bWhPr </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69515/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69515</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926759")</script>Mon, 22 Apr 2019 09:52:39 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/VwScGis2Vz1mbAhPrg66nbAGDNXG7Q5HQKuNPv2i7e2h4K45SxMN/"> VwScGis2Vz1mbAhPrg66nbAGDNXG7Q5HQKuNPv2i7e2h4K45SxMN </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69514/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69514</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926704")</script>Mon, 22 Apr 2019 09:51:44 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/QG5oaUVgEJJa8nzSr7z456PdXugkd1cowum4iFBnaE8ATGE77zCh/"> QG5oaUVgEJJa8nzSr7z456PdXugkd1cowum4iFBnaE8ATGE77zCh </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69513/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69513</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926493")</script>Mon, 22 Apr 2019 09:48:13 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/WHFP6Fo22ov75Rq45odYmJmX9SZN7uCr7mntyXtSXwzEZkMarfoU/"> WHFP6Fo22ov75Rq45odYmJmX9SZN7uCr7mntyXtSXwzEZkMarfoU </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69512/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69512</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926402")</script>Mon, 22 Apr 2019 09:46:42 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/UqB9SpUSoX1HTESCYoyC9taYZj6Ltw1ZnA7NXc4BkRU1y1U27Nhk/"> UqB9SpUSoX1HTESCYoyC9taYZj6Ltw1ZnA7NXc4BkRU1y1U27Nhk </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69511/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69511</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926376")</script>Mon, 22 Apr 2019 09:46:16 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/WJ3VPGU1AMCPXMuRnE2w4BzgG8KFXfXDaJqXyxFA6A68Lm3vK16W/"> WJ3VPGU1AMCPXMuRnE2w4BzgG8KFXfXDaJqXyxFA6A68Lm3vK16W </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69510/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69510</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926359")</script>Mon, 22 Apr 2019 09:45:59 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/7BphP5qASe6F8PHbe5HK48q6HSrviHME71BXmoqD96AX4Hky28HQ/"> 7BphP5qASe6F8PHbe5HK48q6HSrviHME71BXmoqD96AX4Hky28HQ </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69509/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69509</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926295")</script>Mon, 22 Apr 2019 09:44:55 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/GvWjw2kaZXbc9ZCrMumnKJgusRHgCWhAim8GUH363KbiQdWKXWRo/"> GvWjw2kaZXbc9ZCrMumnKJgusRHgCWhAim8GUH363KbiQdWKXWRo </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69508/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69508</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926278")</script>Mon, 22 Apr 2019 09:44:38 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/R3JMXCdkm2HCkzQ4VjXQwGJmNjwB8FYYHxKiEroSdHyAxtag6RLv/"> R3JMXCdkm2HCkzQ4VjXQwGJmNjwB8FYYHxKiEroSdHyAxtag6RLv </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69507/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69507</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926235")</script>Mon, 22 Apr 2019 09:43:55 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/EoaMALouZRzArSxX5Cms7vmMyChqWsuMWJAFNx5gtD3hFyZMPauj/"> EoaMALouZRzArSxX5Cms7vmMyChqWsuMWJAFNx5gtD3hFyZMPauj </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69506/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69506</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926165")</script>Mon, 22 Apr 2019 09:42:45 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/CV7Szf3qcp8AzKLs3wbqbpSkTDbw8Fgz7s3qJwLrPEW5NFBUWLaP/"> CV7Szf3qcp8AzKLs3wbqbpSkTDbw8Fgz7s3qJwLrPEW5NFBUWLaP </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69505/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69505</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555926003")</script>Mon, 22 Apr 2019 09:40:03 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/87DF1QGcQ1o2TPrhXLgkDvsGEGgVeq4kCSCVYnsb7JxHsRMHVP4c/"> 87DF1QGcQ1o2TPrhXLgkDvsGEGgVeq4kCSCVYnsb7JxHsRMHVP4c </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69504/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69504</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555925998")</script>Mon, 22 Apr 2019 09:39:58 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/MTrjL6L9eP1WLpEg5sEkrCx9xjr572M5U499Wg6RyKbagJ4xr5T6/"> MTrjL6L9eP1WLpEg5sEkrCx9xjr572M5U499Wg6RyKbagJ4xr5T6 </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69503/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69503</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555925979")</script>Mon, 22 Apr 2019 09:39:39 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/G53PmwAnyMo2B1jdAMLubhyZCxx4eJXnkV8qPLiGJ5NN475SudKh/"> G53PmwAnyMo2B1jdAMLubhyZCxx4eJXnkV8qPLiGJ5NN475SudKh </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69502/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69502</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555925563")</script>Mon, 22 Apr 2019 09:32:43 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/B7aQR74pC7VqCAsupMYnFiePBknGsaRXLqP42hNnPw9DLqCptQW1/"> B7aQR74pC7VqCAsupMYnFiePBknGsaRXLqP42hNnPw9DLqCptQW1 </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--<tr>-->
-                            <!--<th scope="row">-->
-                                <!--<a href="/block_height/69501/">-->
-                                    <!--<div class="block_box">-->
-                                        <!--<span>Block 69501</span>-->
-                                    <!--</div>-->
-                                <!--</a>-->
-
-                            <!--</th>-->
-                            <!--<td>-->
-                                <!--<div class="block-detail-time">Time&nbsp;&nbsp;<script>time_transfer("1555925432")</script>Mon, 22 Apr 2019 09:30:32 GMT</div>-->
-                                <!--<div class="block-detail-mine">Mined By <a href="/address/VxmpcajAmstKoQ7uY9rc1vRbK2vbACW4F55NTbroNjq9KDanfoFX/"> VxmpcajAmstKoQ7uY9rc1vRbK2vbACW4F55NTbroNjq9KDanfoFX </a></div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-
-                        <!--</tbody> &lt;!&ndash; END OF tbody &ndash;&gt;-->
-                    <!--</table> &lt;!&ndash; END OF table &ndash;&gt;-->
-                    <!--<div class="view-all-button">-->
-                        <!--<a href="/block_list/">View All</a>-->
-                    <!--</div>-->
-                <!--</div> &lt;!&ndash; END OF BLOCK &ndash;&gt;-->
-
-
-            <!--</div> &lt;!&ndash; END OF CONTAINER &ndash;&gt;-->
-
-        <!--</div>-->
+        <div class="wrapper" ng-view ></div>
 
         <!-- FOOTER -->
         <div class="footer">
@@ -406,5 +63,6 @@
 
         </div> <!-- END OF FOOTER -->
     </div>
+
 </body>
 </html>
