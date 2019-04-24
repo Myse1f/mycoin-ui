@@ -19,7 +19,8 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 // service for api request
 app.service('mycoinAPI', function ($http, $q) {
-    var urlPrefix = 'http://127.0.0.1:8081/mycoin/api/';
+    // var urlPrefix = 'http://127.0.0.1:8081/mycoin/api/';
+    var urlPrefix = 'http://101.132.161.125:8081/mycoin/api/';
 
     this.getBlock = function (hash) {
         var deferred = $q.defer();
@@ -128,20 +129,42 @@ app.service('mycoinAPI', function ($http, $q) {
 
         return deferred.promise;
     };
-    // return {
-    //     getBlock: this.getBlock,
-    //     getRecentBlocks: this.getRecentBlocks,
-    //     getAllBlocks: this.getAllBlocks,
-    //     getMinerStatus: this.getMinerStatus,
-    //     startMiner: this.startMiner,
-    //     stopMiner: this.stopMiner,
-    //     getPeers: this.getPeers,
-    //     connectToPeer: this.connectToPeer
-    // }
+});
+
+// set echarts directive
+app.directive('eChart', function() {
+    function link($scope, element, attrs) {
+    	//初始化图表
+        var myChart = echarts.init(element[0]);
+        //监控option数据变化
+        $scope.$watch(attrs['ecData'], function() {
+            var option = $scope.$eval(attrs.ecData);
+            if (angular.isObject(option)) {
+            	//绘制图表
+                myChart.setOption(option, true);
+            }
+        }, true);
+        $scope.getDom = function() {
+            return {
+                'height': element[0].offsetHeight,
+                'width': element[0].offsetWidth
+            };
+        };
+        //监控图表宽高变化，响应式
+        $scope.$watch($scope.getDom, function() {
+            // resize echarts图表
+            myChart.resize();
+        }, true);
+    }
+    return {
+    	//A 作为属性使用
+        restrict: 'A',
+        link: link
+    };
 });
 
 // set controller
-app.controller('homeController', function($scope, mycoinAPI) {
+app.controller('homeController', function($scope, $filter, mycoinAPI) {
     $scope.blockNumber = 123;
     $scope.btnClass = "btn-danger";
     $scope.minerStatus = "Start";
@@ -156,19 +179,75 @@ app.controller('homeController', function($scope, mycoinAPI) {
         }
     };
 
+
+    // echarts option
+    $scope.echartsOption = {
+        title: {
+            text: 'Block height/Time'
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: function (params) {
+                params = params[0];
+                var date = new Date(params.name);
+                return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' + date.getHours()
+                + ':' + date.getMinutes() + ':' + date.getSeconds() + '  ' + params.value[1];
+            },
+            axisPointer: {
+                animation: false
+            }
+        },
+        xAxis: {
+            type: 'time',
+            splitLine: {
+                show: false
+            }
+        },
+        yAxis: {
+            type: 'value',
+            boundaryGap: [0, '100%'],
+            splitLine: {
+                show: false
+            }
+        },
+        series: [{
+            type: 'line',
+            showSymbol: false,
+            hoverAnimation: false,
+        }]
+    };
+
+    $scope.blocks2EcData = function() {
+        var ecData = [];
+        for (var block of $scope.blocks) {
+            ecData.push({
+                name: (block.time*1000).toString(),
+                value: [
+                    $filter('date')(block.time*1000, 'yy-mm-dd HH:mm:ss'),
+                    block.height
+                ]
+            });
+        }
+        return ecData;
+    };
+
     $scope.refresh = function () {
         var promise = mycoinAPI.getRecentBlocks();
-
+        console.log("Refresh...");
         promise.then(function (value) {
             if (value.code === 111) {
                 $scope.blocks = value.data;
+                $scope.ecData = $scope.blocks2EcData();
+                $scope.ecData.reverse();
+                $scope.echartsOption.series[0].data = $scope.ecData;
+                console.log($scope.ecData);
             } else {
                 console.log(value.msg);
             }
         });
-
     };
 
+    // first refresh the blocks data
     $scope.refresh();
 
 });
