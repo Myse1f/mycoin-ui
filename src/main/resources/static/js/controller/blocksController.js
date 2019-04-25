@@ -6,7 +6,7 @@ app.controller('blocksController', function ($scope, mycoinAPI) {
             if (value.code === 111) {
                 splitPage(value.data);
             } else {
-                console.log(value.msg);
+                toaster.pop('error', 'error', value.msg, 10000);
             }
         })
     };

@@ -1,7 +1,7 @@
 // set home controller
 var app = angular.module("mycoinUI");
 
-app.controller('homeController', function ($scope, $filter, $interval, mycoinAPI) {
+app.controller('homeController', function ($scope, $filter, $interval, toaster, mycoinAPI) {
 
     $scope.startStopMiner = function () {
         if ($scope.minerStatus) {
@@ -11,7 +11,7 @@ app.controller('homeController', function ($scope, $filter, $interval, mycoinAPI
                     $scope.minerStatus = value.data.status === 'running';
                     $scope.btnClass = "btn-success";
                 } else {
-                    console.log(value.msg);
+                    toaster.pop('error', 'error', value.msg, 10000);
                 }
             });
         } else {
@@ -21,7 +21,7 @@ app.controller('homeController', function ($scope, $filter, $interval, mycoinAPI
                     $scope.minerStatus = value.data.status === 'running';
                     $scope.btnClass = "btn-danger";
                 } else {
-                    console.log(value.msg);
+                    toaster.pop('error', 'error', value.msg, 10000);
                 }
             })
         }
@@ -92,7 +92,7 @@ app.controller('homeController', function ($scope, $filter, $interval, mycoinAPI
                 $scope.echartsOption.series[0].data = $scope.ecData;
                 console.log($scope.ecData);
             } else {
-                console.log(value.msg);
+                toaster.pop('error', 'error', value.msg, 10000);
             }
         });
 
@@ -102,7 +102,7 @@ app.controller('homeController', function ($scope, $filter, $interval, mycoinAPI
                 $scope.minerStatus = value.data.status;
                 $scope.btnClass = $scope.minerStatus ? "btn-danger" : "btn-success";
             } else {
-                console.log(value.msg);
+                toaster.pop('error', 'error', value.msg, 10000);
             }
         })
     };
