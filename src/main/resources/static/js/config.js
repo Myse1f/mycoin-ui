@@ -164,18 +164,30 @@ app.directive('eChart', function() {
 });
 
 // set controller
-app.controller('homeController', function($scope, $filter, mycoinAPI) {
+app.controller('homeController', function($scope, $filter, $interval, mycoinAPI) {
     $scope.blockNumber = 123;
-    $scope.btnClass = "btn-danger";
-    $scope.minerStatus = "Start";
 
     $scope.startStopMiner = function () {
-        if ($scope.minerStatus === "Start") {
-            $scope.minerStatus = "Stop";
-            $scope.btnClass = "btn-success";
+        if ($scope.minerStatus) {
+            let promise = mycoinAPI.stopMiner();
+            promise.then(function (value) {
+                if (value.code === 111) {
+                    $scope.minerStatus = value.data.status === 'running';
+                    $scope.btnClass = "btn-success";
+                } else {
+                    console.log(value.msg);
+                }
+            });
         } else {
-            $scope.minerStatus = "Start";
-            $scope.btnClass = "btn-danger";
+            let promise = mycoinAPI.startMiner();
+            promise.then(function (value) {
+                if (value.code === 111) {
+                    $scope.minerStatus = value.data.status === 'running';
+                    $scope.btnClass = "btn-danger";
+                } else {
+                    console.log(value.msg);
+                }
+            })
         }
     };
 
@@ -190,8 +202,7 @@ app.controller('homeController', function($scope, $filter, mycoinAPI) {
             formatter: function (params) {
                 params = params[0];
                 var date = new Date(params.name);
-                return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' + date.getHours()
-                + ':' + date.getMinutes() + ':' + date.getSeconds() + '  ' + params.value[1];
+                return $filter('date')(date.getTime(), 'yyyy-MM-dd HH:mm:ss') + '  ' + params.value[1];
             },
             axisPointer: {
                 animation: false
@@ -206,6 +217,7 @@ app.controller('homeController', function($scope, $filter, mycoinAPI) {
         yAxis: {
             type: 'value',
             boundaryGap: [0, '100%'],
+            scale: true,
             splitLine: {
                 show: false
             }
@@ -213,17 +225,18 @@ app.controller('homeController', function($scope, $filter, mycoinAPI) {
         series: [{
             type: 'line',
             showSymbol: false,
-            hoverAnimation: false,
+            hoverAnimation: false
         }]
     };
 
     $scope.blocks2EcData = function() {
-        var ecData = [];
-        for (var block of $scope.blocks) {
+        const ecData = [];
+        for (const block of $scope.blocks) {
+            const now = new Date(block.time*1000);
             ecData.push({
-                name: (block.time*1000).toString(),
+                name: now.toString(),
                 value: [
-                    $filter('date')(block.time*1000, 'yy-mm-dd HH:mm:ss'),
+                    $filter('date')(now.getTime(), 'yyyy-MM-dd HH:mm:ss'),
                     block.height
                 ]
             });
@@ -232,7 +245,7 @@ app.controller('homeController', function($scope, $filter, mycoinAPI) {
     };
 
     $scope.refresh = function () {
-        var promise = mycoinAPI.getRecentBlocks();
+        let promise = mycoinAPI.getRecentBlocks();
         console.log("Refresh...");
         promise.then(function (value) {
             if (value.code === 111) {
@@ -245,9 +258,32 @@ app.controller('homeController', function($scope, $filter, mycoinAPI) {
                 console.log(value.msg);
             }
         });
+
+        promise = mycoinAPI.getMinerStatus();
+        promise.then(function (value) {
+            if (value.code === 111) {
+                $scope.minerStatus = value.data.status;
+                $scope.btnClass = $scope.minerStatus ? "btn-danger" : "btn-success";
+            } else {
+                console.log(value.msg);
+            }
+        })
     };
 
     // first refresh the blocks data
     $scope.refresh();
+
+    // set timer, refresh every 1 minutes
+    var timer;
+    if (!angular.isDefined(timer)) {
+        timer = $interval(function() {
+            $scope.refresh();
+        }, 60*1000);
+    } else {
+        $interval.cancel(timer);
+    }
+    $scope.$on("$destroy", function() {
+        $interval.cancel(timer);
+    });
 
 });
