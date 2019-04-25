@@ -1,0 +1,76 @@
+<div ng-controller="blocksController">
+<div class="container menu">
+    <ul class="menu-list">
+        <li><a href="#!/home">Home</a></li>
+        <li style="color:orange">Blocks</li>
+    </ul>
+</div>
+<div class="container overview ">
+    <div class="block-header"><h3>Blocks</h3><br></div>
+    <div class="pagination">
+        <div class="step-links">
+            <div class="previous" ng-hide="currentPage == 1">
+
+                <button ng-click="goFirst()">First</button>
+                <button ng-click="goPrev()"><i class="fa fa-angle-double-left"></i>&nbsp;Prev</button>
+
+            </div>
+
+            <div class="current">
+                Page {{currentPage}} of {{pageNumber}}
+            </div>
+            <div class="last" ng-hide="currentPage == pageNumber">
+
+                <button ng-click="goNext()">Next&nbsp;<i class="fa fa-angle-double-right"></i></button>
+                <button ng-click="goLast()">Last</button>
+
+            </div>
+
+        </div>
+    </div>
+    <table class="table block-info table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Height</th>
+            <th scope="col">Time</th>
+            <th scope="col">Hash</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="block in blocksPage[currentPage-1]">
+            <td scope="row"><a href="#!/block/{{block.height}}/"> {{block.height}} </a></td>
+            <td>
+                {{block.time*1000 | date:'yyyy-MM-dd HH:mm:ss'}} &nbsp;UTC
+            </td>
+                <td><span class="addr-hash">{{block.hash}}</span>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <div class="step-links">
+            <div class="previous" ng-hide="currentPage == 1">
+
+                <button ng-click="goFirst()">First</button>
+                <button ng-click="goPrev()"><i class="fa fa-angle-double-left"></i>&nbsp;Prev</button>
+
+            </div>
+
+            <div class="current">
+                Page {{currentPage}} of {{pageNumber}}
+            </div>
+            <div class="last" ng-hide="currentPage == pageNumber">
+
+                <button ng-click="goNext()">Next&nbsp;<i class="fa fa-angle-double-right"></i></button>
+                <button ng-click="goLast()">Last</button>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</div>

@@ -3,15 +3,15 @@ var app = angular.module('mycoinUI', ['ngRoute']);
 
 // set route
 app.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.
-    when('/', {
+    $routeProvider.when('/', {
         redirectTo: '/home'
-    }).
-    when('/home', {
+    }).when('/home', {
         templateUrl: "views/home.html",
         controller: "homeController"
-    }).
-    otherwise({
+    }).when('/blocks', {
+        templateUrl: "views/blocks.html",
+        controller: "blocksController"
+    }).otherwise({
         redirectTo: '/home'
     });
 
@@ -24,19 +24,19 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getBlock = function (hash) {
         var deferred = $q.defer();
-        $http.get(urlPrefix+'block/'+hash).then(
-          function successCallback(response) {
-              deferred.resolve(response.data);
-          }, function errorCallback(response) {
-              deferred.reject('error');
-          }
+        $http.get(urlPrefix + 'block/' + hash).then(
+            function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject('error');
+            }
         );
         return deferred.promise;
     };
 
     this.getRecentBlocks = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix+'recentblocks/').then(
+        $http.get(urlPrefix + 'recentblocks/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -49,7 +49,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getAllBlocks = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix+'allblocks/').then(
+        $http.get(urlPrefix + 'allblocks/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -61,7 +61,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getMinerStatus = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix+'miner/').then(
+        $http.get(urlPrefix + 'miner/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -74,7 +74,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.startMiner = function () {
         var deferred = $q.defer();
-        $http.patch(urlPrefix+'miner/', null).then(
+        $http.patch(urlPrefix + 'miner/', null).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -87,7 +87,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.stopMiner = function () {
         var deferred = $q.defer();
-        $http.delete(urlPrefix+'miner/').then(
+        $http.delete(urlPrefix + 'miner/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -100,7 +100,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getPeers = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix+'peers/').then(
+        $http.get(urlPrefix + 'peers/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -119,7 +119,7 @@ app.service('mycoinAPI', function ($http, $q) {
                 port: port
             }
         };
-        $http.patch(urlPrefix+'miner/', null, config).then(
+        $http.patch(urlPrefix + 'miner/', null, config).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -132,40 +132,40 @@ app.service('mycoinAPI', function ($http, $q) {
 });
 
 // set echarts directive
-app.directive('eChart', function() {
+app.directive('eChart', function () {
     function link($scope, element, attrs) {
-    	//初始化图表
+        //初始化图表
         var myChart = echarts.init(element[0]);
         //监控option数据变化
-        $scope.$watch(attrs['ecData'], function() {
+        $scope.$watch(attrs['ecData'], function () {
             var option = $scope.$eval(attrs.ecData);
             if (angular.isObject(option)) {
-            	//绘制图表
+                //绘制图表
                 myChart.setOption(option, true);
             }
         }, true);
-        $scope.getDom = function() {
+        $scope.getDom = function () {
             return {
                 'height': element[0].offsetHeight,
                 'width': element[0].offsetWidth
             };
         };
         //监控图表宽高变化，响应式
-        $scope.$watch($scope.getDom, function() {
+        $scope.$watch($scope.getDom, function () {
             // resize echarts图表
             myChart.resize();
         }, true);
     }
+
     return {
-    	//A 作为属性使用
+        //A 作为属性使用
         restrict: 'A',
         link: link
     };
 });
 
 // set controller
-app.controller('homeController', function($scope, $filter, $interval, mycoinAPI) {
-    $scope.blockNumber = 123;
+app.controller('homeController', function ($scope, $filter, $interval, mycoinAPI) {
 
     $scope.startStopMiner = function () {
         if ($scope.minerStatus) {
@@ -229,10 +229,10 @@ app.controller('homeController', function($scope, $filter, $interval, mycoinAPI)
         }]
     };
 
-    $scope.blocks2EcData = function() {
+    $scope.blocks2EcData = function () {
         const ecData = [];
         for (const block of $scope.blocks) {
-            const now = new Date(block.time*1000);
+            const now = new Date(block.time * 1000);
             ecData.push({
                 name: now.toString(),
                 value: [
@@ -250,6 +250,7 @@ app.controller('homeController', function($scope, $filter, $interval, mycoinAPI)
         promise.then(function (value) {
             if (value.code === 111) {
                 $scope.blocks = value.data;
+                $scope.blocksNumber = $scope.blocks[0].height + 1;
                 $scope.ecData = $scope.blocks2EcData();
                 $scope.ecData.reverse();
                 $scope.echartsOption.series[0].data = $scope.ecData;
@@ -276,14 +277,61 @@ app.controller('homeController', function($scope, $filter, $interval, mycoinAPI)
     // set timer, refresh every 1 minutes
     var timer;
     if (!angular.isDefined(timer)) {
-        timer = $interval(function() {
+        timer = $interval(function () {
             $scope.refresh();
-        }, 60*1000);
+        }, 60 * 1000);
     } else {
         $interval.cancel(timer);
     }
-    $scope.$on("$destroy", function() {
+    $scope.$on("$destroy", function () {
         $interval.cancel(timer);
     });
 
+});
+
+app.controller('blocksController', function ($scope, mycoinAPI) {
+
+    $scope.initialize = function () {
+        $scope.currentPage = 1;
+        mycoinAPI.getAllBlocks().then(function (value) {
+            if (value.code === 111) {
+                splitPage(value.data);
+            } else {
+                console.log(value.msg);
+            }
+        })
+    };
+
+    const numberInPage = 100;
+
+    function splitPage(blocks) {
+        $scope.pageNumber = Math.floor(blocks.length / numberInPage) + 1;
+        $scope.blocksPage = [];
+        for (let i = 0; i < $scope.pageNumber; i++) {
+            $scope.blocksPage.push(blocks.slice(i * numberInPage, (i + 1) * numberInPage));
+        }
+    }
+
+    $scope.goFirst = function () {
+        $scope.currentPage = 1;
+    };
+
+    $scope.goNext = function () {
+        if ($scope.currentPage < $scope.pageNumber) {
+            $scope.currentPage += 1;
+        }
+    };
+
+    $scope.goPrev = function () {
+        if ($scope.currentPage - 1 > 0) {
+            $scope.currentPage += 1;
+        }
+
+    };
+
+    $scope.goLast = function () {
+        $scope.currentPage = $scope.pageNumber;
+    };
+
+    $scope.initialize();
 });
