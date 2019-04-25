@@ -1,0 +1,68 @@
+<div ng-controller="blockController">
+
+    <div class="container menu">
+        <ul class="menu-list">
+            <li><a href="#!/home/">Home</a></li>
+            <li><a href="#!/blocks/">Blocks</a></li>
+            <li style="color:orange">Block Information</li>
+        </ul>
+    </div>
+
+    <div class="container overview">
+        <div class="block-header" id="block-header-h3">
+            <h3>Block #{{block.height || "Not Found"}}</h3>
+        </div>
+        <table class="table block-info table-striped">
+            <thead>
+            <tr>
+                <th scope="col" colspan="2">
+                    <div class="block-info-header">
+                        <h5>Block Information</h5>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <th scope="row">Height</th>
+                <td>{{block.height}}</td>
+            </tr>
+
+            <tr>
+                <th scope="row">Hash</th>
+                <td>{{block.hash}}</td>
+            </tr>
+
+
+            <tr>
+                <th scope="row">Previous Hash</th>
+
+                <td colspan="2">
+                    <a href="#!/block/{{block.prevHash}}/">{{block.prevHash}}</a>
+                </td>
+
+            </tr>
+
+            <tr>
+                <th scope="row">Time Stamp</th>
+                <td>
+                    {{block.time}}
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">Nonce</th>
+                <td>{{block.nonce}}</td>
+            </tr>
+
+            <tr>
+                <th scope="row">Difficulty</th>
+                <td>{{block.difficulty}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div> <!-- END OF block-overview -->
+</div>

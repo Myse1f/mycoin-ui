@@ -8,7 +8,7 @@ app.controller('blocksController', function ($scope, mycoinAPI) {
             } else {
                 toaster.pop('error', 'error', value.msg, 10000);
             }
-        })
+        });
     };
 
     const numberInPage = 100;

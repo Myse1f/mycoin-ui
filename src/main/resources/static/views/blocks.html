@@ -39,11 +39,11 @@
         <tbody>
 
         <tr ng-repeat="block in blocksPage[currentPage-1]">
-            <td scope="row"><a href="#!/block/{{block.height}}/"> {{block.height}} </a></td>
+            <td scope="row"> {{block.height}} </td>
             <td>
                 {{block.time*1000 | date:'yyyy-MM-dd HH:mm:ss'}} &nbsp;UTC
             </td>
-                <td><span class="addr-hash">{{block.hash}}</span>
+                <td><a href="#!/block/{{block.hash}}"><span class="addr-hash">{{block.hash}}</span></a>
             </td>
         </tr>
 

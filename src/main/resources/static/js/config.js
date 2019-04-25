@@ -11,6 +11,9 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/blocks', {
         templateUrl: "views/blocks.html",
         controller: "blocksController"
+    }).when('/block/:hash', {
+        templateUrl: "views/block.html",
+        controller: "blockController"
     }).otherwise({
         redirectTo: '/home'
     });
