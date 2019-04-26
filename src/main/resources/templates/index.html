@@ -2,20 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Mycoin-UI</title>
-    <!--<script src="https://cdn.bootcss.com/angular.js/1.7.0/angular.js"></script>-->
     <script type="text/javascript" th:src="@{/js/angular.js}"></script>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.4/angular-route.js"></script>-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>-->
     <script type="text/javascript" th:src="@{/js/angular-route.js}"></script>
     <script type="text/javascript" th:src="@{/js/angular-animate.js}"></script>
     <script type="text/javascript" th:src="@{/js/echarts.js}"></script>
-    <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script> -->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>-->
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
     <link th:href="@{/css/bootstrap-grid.css}" rel="stylesheet" />
     <link th:href="@{/css/bootstrap-reboot.css}" rel="stylesheet" />
@@ -48,9 +38,9 @@
                             <a class="nav-link" href="#!/nodes/">NODES</a>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0 pull-right" method="POST" action="/search/">
-                        <input class="form-control mr-sm-2" type="search" name="search_input" placeholder="Search by block hash">
-                        <button class="btn btn-sm btn-outline-warning my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+                    <form class="form-inline my-2 my-lg-0 pull-right" name="searchForm" ng-controller="searchController">
+                        <input class="form-control mr-sm-2" type="search" ng-model="searchHash" placeholder="Search by block hash" required>
+                        <a href="#!/block/{{searchHash}}"><button class="btn btn-sm btn-outline-warning my-2 my-sm-0"><i class="fa fa-search"></i></button></a>
                     </form>
                 </div>
             </div>
@@ -76,5 +66,7 @@
     <script type="text/javascript" th:src="@{/js/controller/homeController.js}"></script>
     <script type="text/javascript" th:src="@{/js/controller/blocksController.js}"></script>
     <script type="text/javascript" th:src="@{/js/controller/blockController.js}"></script>
+    <script type="text/javascript" th:src="@{/js/controller/searchController.js}"></script>
+    <script type="text/javascript" th:src="@{/js/controller/nodesController.js}"></script>
 </body>
 </html>
