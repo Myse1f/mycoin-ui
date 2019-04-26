@@ -112,4 +112,46 @@ app.service('mycoinAPI', function ($http, $q) {
 
         return deferred.promise;
     };
+
+    this.getNetworkStatus = function () {
+        var deferred = $q.defer();
+
+        $http.get(urlPrefix + 'network/',).then(
+            function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject('error');
+            }
+        );
+
+        return deferred.promise;
+    };
+
+    this.startNetwork = function () {
+        var deferred = $q.defer();
+
+        $http.patch(urlPrefix + 'network/', null).then(
+            function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject('error');
+            }
+        );
+
+        return deferred.promise;
+    };
+
+    this.stopNetwork = function () {
+        var deferred = $q.defer();
+
+        $http.delete(urlPrefix + 'network/',).then(
+            function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject('error');
+            }
+        );
+
+        return deferred.promise;
+    }
 });

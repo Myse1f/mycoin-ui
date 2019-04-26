@@ -104,7 +104,15 @@ app.controller('homeController', function ($scope, $filter, $interval, toaster, 
             } else {
                 toaster.pop('error', 'error', value.msg, 10000);
             }
-        })
+        });
+
+        mycoinAPI.getPeers().then(function (value) {
+            if (value.code === 111) {
+                $scope.nodesNumber = value.data.length;
+            } else {
+                toaster.pop('error', 'error', value.msg, 10000);
+            }
+        });
     };
 
     // first refresh the blocks data
