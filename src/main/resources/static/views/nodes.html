@@ -1,0 +1,50 @@
+<div ng-controller="nodesController">
+    <div class="container menu">
+        <ul class="menu-list">
+            <li><a href="#!/home/">Home</a></li>
+            <li style="color:orange">Nodes</li>
+        </ul>
+    </div>
+
+    <div class="container overview ">
+        <div class="block-header"><h3>Connected Nodes</h3><br></div>
+
+        <table class="table block-info table-striped">
+            <thead>
+            <tr>
+                <th scope="col" colspan="2">
+                    <div class="block-info-header">
+                        <h5 class="d-inline-block">Network Status</h5> &nbsp;&nbsp; <input type="button" class="btn btn-{{btnClass}}" value="{{networkStatus ?'Stop' : 'Start'}}">
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col">Nodes</th>
+                <th scope="col">Address</th>
+                <th scope="col">Port</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr ng-repeat="peer in peers">
+                <td scope="row"> {{$index+1}}</td>
+                <td>{{peer.address}}</td>
+                <td>{{peer.port}}</td>
+            </tr>
+
+            </tbody>
+
+            <tr>
+                <form class="form-inline" name="connectForm" novalidate>
+                    <td scope="row">
+                        <button class="btn btn-default" ng-click="submitConnect()">Connect</button>
+                    </td>
+                    <td><input name="address" type="text" ng-model="address" ng-pattern=""></td>
+                    <td><input name="port" type="number" min="1" max="65535" value="23333" ng-model="port"></td>
+                </form>
+            </tr>
+        </table>
+
+
+    </div>
+</div>

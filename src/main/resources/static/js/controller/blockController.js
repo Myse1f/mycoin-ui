@@ -1,6 +1,7 @@
 var app = angular.module("mycoinUI");
 
 app.controller("blockController", function ($scope, $routeParams, $filter, toaster, mycoinAPI) {
+    $scope.block = {};
     $scope.block.height = '';
 
     $scope.initialize = function () {

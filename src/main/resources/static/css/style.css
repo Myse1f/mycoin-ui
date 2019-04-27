@@ -387,13 +387,13 @@ body .container .col-sm-7 #address ul .overflow-b {
 /*block_list.html*/
 
 .overview button {
-	background-color: white!important;
+	background-color: white;
 	padding: 3px 5px;
 	color: #f5a623;
 	text-align: center;
 	text-decoration: none;
 	font-size:14px;
-	border-color: #f5a623!important;
+	border-color: #f5a623;
 	border-width: 0.09rem;
 	border-style: solid;
 }

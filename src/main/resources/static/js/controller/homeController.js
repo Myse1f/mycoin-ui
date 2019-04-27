@@ -60,7 +60,8 @@ app.controller('homeController', function ($scope, $filter, $interval, toaster, 
         },
         series: [{
             type: 'line',
-            showSymbol: false,
+            symbol: 'circle',
+            symbolSize: 7,
             hoverAnimation: false
         }]
     };
@@ -99,7 +100,7 @@ app.controller('homeController', function ($scope, $filter, $interval, toaster, 
         promise = mycoinAPI.getMinerStatus();
         promise.then(function (value) {
             if (value.code === 111) {
-                $scope.minerStatus = value.data.status;
+                $scope.minerStatus = value.data.status === "running";
                 $scope.btnClass = $scope.minerStatus ? "btn-danger" : "btn-success";
             } else {
                 toaster.pop('error', 'error', value.msg, 10000);
