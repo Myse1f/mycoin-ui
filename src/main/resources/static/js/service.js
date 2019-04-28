@@ -102,7 +102,7 @@ app.service('mycoinAPI', function ($http, $q) {
                 port: port
             }
         };
-        $http.patch(urlPrefix + 'miner/', null, config).then(
+        $http.patch(urlPrefix + 'peer/', null, config).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {

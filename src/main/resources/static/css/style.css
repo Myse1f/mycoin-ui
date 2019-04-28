@@ -398,8 +398,8 @@ body .container .col-sm-7 #address ul .overflow-b {
 	border-style: solid;
 }
 .overview button:hover {
-	background-color: #f5a623!important;
-	color:white!important;
+	background-color: #f5a623;
+	color:white;
 	cursor: pointer;
 }
 
@@ -454,6 +454,10 @@ body .container .col-sm-7 #address ul .overflow-b {
 	margin-top: 150px;
 	/* margin-left: 20px; */
 	margin-bottom: 650px;
+}
+
+.error {
+	color: red !important;
 }
 
 .panel {

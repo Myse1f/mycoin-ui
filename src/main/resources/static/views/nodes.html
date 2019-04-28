@@ -7,14 +7,57 @@
     </div>
 
     <div class="container overview ">
-        <div class="block-header"><h3>Connected Nodes</h3><br></div>
+        <div class="block-header"><h3>Nodes</h3><br></div>
+
+        <form name="connectForm" ng-submit="submitConnect()">
+            <table class="table block-info table-striped">
+                <thead>
+                <tr>
+                    <th scope="col" colspan="2">
+                        <div class="block-info-header">
+                            <h5 class="d-inline-block">Network</h5> &nbsp;&nbsp; <input type="button"
+                                                                                        class="btn btn-{{btnClass}}"
+                                                                                        value="{{networkStatus ?'Stop' : 'Start'}}"
+                                                                                        ng-click="startStopNetwork()">
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">Operation</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Port</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td scope="row">
+                        <button ng-disabled="connectForm.address.$error.pattern"
+                                class="btn btn-default" type="submit">Connect
+                        </button>
+                    </td>
+
+                    <td>
+                        <input name="address" type="text" ng-model="address"
+                               ng-pattern="/^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/" required>
+                        <small class="error" ng-show="connectForm.address.$error.pattern">
+                            Illegal ip address
+                        </small>
+                    </td>
+                    <td><input name="port" type="number" min="1" max="65535" value="23333" ng-model="port"></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <br> <hr> <br>
 
         <table class="table block-info table-striped">
             <thead>
             <tr>
                 <th scope="col" colspan="2">
                     <div class="block-info-header">
-                        <h5 class="d-inline-block">Network Status</h5> &nbsp;&nbsp; <input type="button" class="btn btn-{{btnClass}}" value="{{networkStatus ?'Stop' : 'Start'}}">
+                        <h5 class="d-inline-block">Connected Nodes</h5>
+                        <button class="btn btn-default" ng-click="refresh()"><i class="fa fa-refresh fa-2px" aria-hidden="true"></i></button>
                     </div>
                 </th>
             </tr>
@@ -33,18 +76,7 @@
             </tr>
 
             </tbody>
-
-            <tr>
-                <form class="form-inline" name="connectForm" novalidate>
-                    <td scope="row">
-                        <button class="btn btn-default" ng-click="submitConnect()">Connect</button>
-                    </td>
-                    <td><input name="address" type="text" ng-model="address" ng-pattern=""></td>
-                    <td><input name="port" type="number" min="1" max="65535" value="23333" ng-model="port"></td>
-                </form>
-            </tr>
         </table>
-
 
     </div>
 </div>
