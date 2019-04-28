@@ -2,8 +2,7 @@ var app = angular.module("mycoinUI");
 
 // service for api request
 app.service('mycoinAPI', function ($http, $q) {
-    // var urlPrefix = 'http://127.0.0.1:8081/mycoin/api/';
-    var urlPrefix = 'http://101.132.161.125:8081/mycoin/api/';
+    var urlPrefix = 'http://127.0.0.1:8081/mycoin/api/';
 
     this.getBlock = function (hash) {
         var deferred = $q.defer();
