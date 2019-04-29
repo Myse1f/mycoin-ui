@@ -1,4 +1,4 @@
-<div ng-controller="blocksController">
+<div>
     <div class="container menu">
         <ul class="menu-list">
             <li><a href="#!/home">Home</a></li>
@@ -6,7 +6,7 @@
         </ul>
     </div>
     <div class="container overview ">
-        <div class="block-header"><h3>Blocks</h3><br></div>
+        <div class="block-header"><h3>Blocks {{loading ? 'Loading' : ''}}</h3><br></div>
         <div class="pagination">
             <div class="step-links">
                 <div class="previous" ng-hide="currentPage == 1">

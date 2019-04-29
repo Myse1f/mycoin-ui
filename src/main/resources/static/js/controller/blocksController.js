@@ -1,9 +1,11 @@
 app.controller('blocksController', function ($scope, mycoinAPI) {
 
     $scope.initialize = function () {
+        $scope.loading = true;
         $scope.currentPage = 1;
         mycoinAPI.getAllBlocks().then(function (value) {
             if (value.code === 111) {
+                $scope.loading = false;
                 splitPage(value.data);
             } else {
                 toaster.pop('error', 'error', value.msg, 10000);

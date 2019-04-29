@@ -41,9 +41,9 @@
                             <a class="nav-link" href="#!/nodes/">NODES</a>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0 pull-right" name="searchForm" ng-controller="searchController">
-                        <input class="form-control mr-sm-2" type="search" ng-model="searchHash" placeholder="Search by block hash" required>
-                        <a href="#!/block/{{searchHash}}"><button class="btn btn-sm btn-outline-warning my-2 my-sm-0"><i class="fa fa-search"></i></button></a>
+                    <form class="form-inline my-2 my-lg-0 pull-right" name="searchForm" ng-controller="searchController" ng-submit="submitSearch()">
+                        <input minlength="64" maxlength="64" class="form-control mr-sm-2" type="text" ng-model="searchHash" placeholder="Search by block hash" required>
+                        <button type="submit" class="btn btn-sm btn-outline-warning my-2 my-sm-0"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
             </div>
