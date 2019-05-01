@@ -2,11 +2,10 @@ var app = angular.module("mycoinUI");
 
 // service for api request
 app.service('mycoinAPI', function ($http, $q) {
-    var urlPrefix = 'http://101.132.161.125:8081/mycoin/api/';
 
     this.getBlock = function (hash) {
         var deferred = $q.defer();
-        $http.get(urlPrefix + 'block/' + hash).then(
+        $http.get('/block/' + hash).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -18,7 +17,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getRecentBlocks = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix + 'recentblocks/').then(
+        $http.get('/recentblocks/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -31,7 +30,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getAllBlocks = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix + 'allblocks/').then(
+        $http.get('/allblocks/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -43,7 +42,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getMinerStatus = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix + 'miner/').then(
+        $http.get('/miner/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -56,7 +55,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.startMiner = function () {
         var deferred = $q.defer();
-        $http.patch(urlPrefix + 'miner/', null).then(
+        $http.patch('/miner/', null).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -69,7 +68,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.stopMiner = function () {
         var deferred = $q.defer();
-        $http.delete(urlPrefix + 'miner/').then(
+        $http.delete('/miner/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -82,7 +81,7 @@ app.service('mycoinAPI', function ($http, $q) {
 
     this.getPeers = function () {
         var deferred = $q.defer();
-        $http.get(urlPrefix + 'peers/').then(
+        $http.get('/peers/').then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -101,7 +100,7 @@ app.service('mycoinAPI', function ($http, $q) {
                 port: port
             }
         };
-        $http.patch(urlPrefix + 'peer/', null, config).then(
+        $http.patch('/peer/', null, config).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -115,7 +114,7 @@ app.service('mycoinAPI', function ($http, $q) {
     this.getNetworkStatus = function () {
         var deferred = $q.defer();
 
-        $http.get(urlPrefix + 'network/',).then(
+        $http.get('/network/',).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -129,7 +128,7 @@ app.service('mycoinAPI', function ($http, $q) {
     this.startNetwork = function () {
         var deferred = $q.defer();
 
-        $http.patch(urlPrefix + 'network/', null).then(
+        $http.patch('/network/', null).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
@@ -143,7 +142,7 @@ app.service('mycoinAPI', function ($http, $q) {
     this.stopNetwork = function () {
         var deferred = $q.defer();
 
-        $http.delete(urlPrefix + 'network/',).then(
+        $http.delete('/network/',).then(
             function successCallback(response) {
                 deferred.resolve(response.data);
             }, function errorCallback(response) {
