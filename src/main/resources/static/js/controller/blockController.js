@@ -9,6 +9,7 @@ app.controller("blockController", function ($scope, $routeParams, $filter, toast
             if (value.code === 111) {
                 $scope.block = value.data;
                 $scope.block.time = $filter('date')($scope.block.time*1000, 'yyyy-MM-dd HH:mm:ss') + ' UTC';
+                $scope.block.difficulty = $scope.block.difficulty + " (0x" + $scope.block.difficulty.toString(16) + ")";
             } else {
                 toaster.pop('warning', 'warning', value.message, 3000);
             }
