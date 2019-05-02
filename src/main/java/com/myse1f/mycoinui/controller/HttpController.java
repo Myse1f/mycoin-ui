@@ -100,11 +100,15 @@ public class HttpController {
         }
         return httpResult.getContent();
     }
-//
-//    @PatchMapping("/network")
-//    public String startNetwork() {
-//
-//    }
+
+    @PatchMapping("/network")
+    public String startNetwork() throws Exception {
+        HttpClientResult httpResult = HttpClientUtils.doPatch(urlPrefix + "/network/");
+        if (httpResult.getCode() != HttpStatus.SC_CREATED) {
+            throw new HttpException("Error!");
+        }
+        return httpResult.getContent();
+    }
 
     @DeleteMapping("/network")
     public String stopNetwork() throws Exception {
