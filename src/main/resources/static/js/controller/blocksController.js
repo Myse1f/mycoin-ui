@@ -16,7 +16,7 @@ app.controller('blocksController', function ($scope, mycoinAPI) {
     const numberInPage = 100;
 
     function splitPage(blocks) {
-        $scope.pageNumber = Math.floor(blocks.length / numberInPage) + 1;
+        $scope.pageNumber = Math.floor((blocks.length + numberInPage - 1) / numberInPage);
         $scope.blocksPage = [];
         for (let i = 0; i < $scope.pageNumber; i++) {
             $scope.blocksPage.push(blocks.slice(i * numberInPage, (i + 1) * numberInPage));
@@ -35,7 +35,7 @@ app.controller('blocksController', function ($scope, mycoinAPI) {
 
     $scope.goPrev = function () {
         if ($scope.currentPage - 1 > 0) {
-            $scope.currentPage += 1;
+            $scope.currentPage -= 1;
         }
 
     };
